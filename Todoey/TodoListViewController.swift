@@ -49,6 +49,7 @@ class TodoListViewController: UITableViewController {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            // This block will be executed when usr clicks "Add Item" button
             if let safeText = textField.text {
                 DispatchQueue.main.async {
                     self.itemArray.append(safeText)
