@@ -59,8 +59,7 @@ class TodoListViewController: UITableViewController {
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
-        tableView.reloadData()
-        
+        saveItem()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -75,15 +74,7 @@ class TodoListViewController: UITableViewController {
                     let newItem = Item()
                     newItem.title = safeText;
                     self.itemArray.append(newItem)
-                    let encoder = PropertyListEncoder()
-                    do {
-                        let data = try encoder.encode(self.itemArray)
-                        try data.write(to: self.dataFilePath!)
-                    }catch{
-                        print("Error encoding itemArray, \(error)")
-                    }
-                    
-                    self.tableView.reloadData()
+                    self.saveItem()
                 }
             }
         }
@@ -95,6 +86,18 @@ class TodoListViewController: UITableViewController {
         
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - Save Items
+    fileprivate func saveItem() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to:  dataFilePath!)
+        }catch{
+            print("Error encoding itemArray, \(error)")
+        }
+        self.tableView.reloadData()
     }
     
 }
